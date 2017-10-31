@@ -10,6 +10,7 @@ import (
 func Test(t *testing.T) { TestingT(t) }
 
 func init() {
+	Suite(&TimeSuite{})
 	Suite(&ArraySuite{})
 	Suite(&UUIDSuite{})
 	Suite(&StringSuite{})
