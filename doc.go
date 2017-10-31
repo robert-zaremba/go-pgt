@@ -1,4 +1,4 @@
-// Package pgt provides set of advanced PostgreSQL types:
+// Package pgt provides missing type wrappers to automatically decode and encode advanced PostgreSQL types.
 //
 // * Real number arrays
 // * Integer number arrays
@@ -7,5 +7,5 @@
 // * Time intervals (duration)
 // * more ...
 //
-// This types provides some interfaces for addtional Marshallers (like JSON, YAML)
+// This types provides some interfaces for additional Marshallers (like JSON, YAML)
 package pgt
