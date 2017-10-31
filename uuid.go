@@ -170,7 +170,7 @@ func ParseUUIDArray(src []byte) (UUIDs, error) {
 	if bytes.Equal(src, EmptyArray) {
 		return UUIDs{}, nil
 	}
-	vals := SplitArray(src)
+	vals := SplitSimpleArray(src)
 	var results = make(UUIDs, len(vals))
 	var err errstack.E
 	for i := range vals {

@@ -8,7 +8,7 @@ import (
 type ArraySuite struct{}
 
 func checkNestedArray(src string, expected []string, c *C, comment interface{}) {
-	var resb = SplitNestedArray([]byte(src))
+	var resb = SplitNestedSimpleArray([]byte(src))
 	var res = make([]string, len(resb))
 	for i := range resb {
 		res[i] = string(resb[i])
@@ -16,7 +16,7 @@ func checkNestedArray(src string, expected []string, c *C, comment interface{}) 
 	c.Assert(res, DeepEquals, expected, comment)
 }
 
-func (suite *ArraySuite) TestSplitNestedArray(c *C) {
+func (suite *ArraySuite) TestSplitNestedSimpleArray(c *C) {
 	checkNestedArray("{}", []string{}, c,
 		Commentf("Empty array should work"))
 

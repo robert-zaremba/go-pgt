@@ -116,9 +116,9 @@ func parseQuotedToken(source string) (string, string, error) {
 	return bat.UnsafeByteArrayToStr(token), source, nil
 }
 
-// SplitArray splits Postgresql encoded Array into list of bytes of elements.
+// SplitSimpleArray splits Postgresql encoded Array into list of bytes of elements.
 // It trims {} characters and split by ','
-func SplitArray(src []byte) [][]byte {
+func SplitSimpleArray(src []byte) [][]byte {
 	l := len(src)
 	if l < 2 {
 		return [][]byte{}
@@ -127,9 +127,9 @@ func SplitArray(src []byte) [][]byte {
 	return bytes.Split(src, arraySeparatorSlice)
 }
 
-// SplitNestedArray splits Postgresql encoded Array of simple types which doesn't require any
-// escape charaters into list of bytes of elements.
-func SplitNestedArray(src []byte) [][]byte {
+// SplitNestedSimpleArray splits Postgresql encoded Array of simple types which doesn't
+// require any escape charaters into list of bytes of elements.
+func SplitNestedSimpleArray(src []byte) [][]byte {
 	var resp = [][]byte{}
 	l := len(src)
 	if l < 2 {
@@ -158,7 +158,7 @@ func ParseFloatArray(src []byte) ([]float64, error) {
 	if bytes.Equal(src, EmptyArray) {
 		return []float64{}, nil
 	}
-	vals := SplitArray(src)
+	vals := SplitSimpleArray(src)
 	var results = make([]float64, len(vals))
 	var err error
 	for i := range vals {
@@ -174,7 +174,7 @@ func ParseInt64Array(src []byte) ([]int64, error) {
 	if bytes.Equal(src, EmptyArray) {
 		return []int64{}, nil
 	}
-	vals := SplitArray(src)
+	vals := SplitSimpleArray(src)
 	var results = make([]int64, len(vals))
 	var err error
 	for i := range vals {
