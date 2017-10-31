@@ -1,0 +1,34 @@
+package pgt
+
+import (
+	"database/sql/driver"
+	"math/big"
+)
+
+// BigInt represents Postgresql numeric type for natural number
+type BigInt struct {
+	*big.Int
+	//	Valid   bool // Valid is true if Float64 is not NULL
+}
+
+// Scan implements sql.Sanner interface
+func (dst *BigInt) Scan(src interface{}) error {
+	if dst == nil {
+		*dst = BigInt{}
+	}
+	if src == nil {
+		return nil
+	}
+	dst.Int = new(big.Int)
+	s, err := convertToString(src)
+	if err != nil {
+		return err
+	}
+	dst.Int.SetString(s, 10)
+	return nil
+}
+
+// Value implements sql/driver.Valuer
+func (dst BigInt) Value() (driver.Value, error) {
+	return dst.String(), nil
+}
