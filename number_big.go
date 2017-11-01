@@ -15,9 +15,6 @@ type BigInt struct {
 
 // Scan implements sql.Sanner interface
 func (dst *BigInt) Scan(src interface{}) error {
-	if dst == nil {
-		*dst = BigInt{}
-	}
 	if src == nil {
 		return nil
 	}
