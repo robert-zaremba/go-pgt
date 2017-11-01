@@ -7,6 +7,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+
+	bat "github.com/robert-zaremba/go-bat"
 )
 
 var (
@@ -44,7 +46,7 @@ func (s *String) Scan(src interface{}) (err error) {
 		s.String, s.Valid = "", false
 		return nil
 	}
-	s.String, err = convertToString(src)
+	s.String, err = bat.UnsafeToString(src)
 	s.Valid = err == nil
 	return
 }
@@ -81,7 +83,7 @@ func FilterValidStrings(ss ...String) []string {
 // and sets the value of the type.  Here we cast to a string and
 // do a regexp based parse
 func (s *Strings) Scan(src interface{}) error {
-	str, err := convertToString(src)
+	str, err := bat.UnsafeToString(src)
 	if err != nil {
 		return err
 	}

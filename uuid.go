@@ -18,7 +18,7 @@ func (u *UUID) Scan(value interface{}) error {
 		u = nil
 		return nil
 	}
-	str, err := convertToString(value)
+	str, err := bat.UnsafeToString(value)
 	if err != nil {
 		return err
 	}
@@ -135,7 +135,7 @@ type UUIDs []UUID
 
 // Scan implements sql Scanner interface
 func (ls *UUIDs) Scan(src interface{}) error {
-	bs, err := convertToBytes(src)
+	bs, err := bat.UnsafeToBytes(src)
 	if err != nil {
 		return err
 	}

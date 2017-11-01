@@ -4,6 +4,8 @@ import (
 	"database/sql/driver"
 	"fmt"
 	"strings"
+
+	bat "github.com/robert-zaremba/go-bat"
 )
 
 // Ints is a slice of long integers for valuer interface
@@ -11,7 +13,7 @@ type Ints []int64
 
 // Scan implements scan methods for scanner
 func (ls *Ints) Scan(src interface{}) error {
-	bs, err := convertToBytes(src)
+	bs, err := bat.UnsafeToBytes(src)
 	if err != nil {
 		return err
 	}
@@ -33,7 +35,7 @@ type Float64s []float64
 
 // Scan implements scan methods for scanner
 func (f *Float64s) Scan(src interface{}) error {
-	bs, err := convertToBytes(src)
+	bs, err := bat.UnsafeToBytes(src)
 	if err != nil {
 		return err
 	}

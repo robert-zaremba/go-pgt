@@ -3,6 +3,8 @@ package pgt
 import (
 	"database/sql/driver"
 	"math/big"
+
+	bat "github.com/robert-zaremba/go-bat"
 )
 
 // BigInt represents Postgresql numeric type for natural number
@@ -20,7 +22,7 @@ func (dst *BigInt) Scan(src interface{}) error {
 		return nil
 	}
 	dst.Int = new(big.Int)
-	s, err := convertToString(src)
+	s, err := bat.UnsafeToString(src)
 	if err != nil {
 		return err
 	}
