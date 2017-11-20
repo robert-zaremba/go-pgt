@@ -1,6 +1,7 @@
 package pgt
 
 import (
+	"bytes"
 	"database/sql/driver"
 	"math/big"
 
@@ -29,5 +30,25 @@ func (dst *BigInt) Scan(src interface{}) error {
 
 // Value implements sql/driver.Valuer
 func (dst BigInt) Value() (driver.Value, error) {
+	if dst.Int == nil {
+		return nil, nil
+	}
 	return dst.String(), nil
+}
+
+// IsNull returns tru iff the inner value is nil
+func (dst BigInt) IsNull() bool {
+	return dst.Int == nil
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface.
+func (dst *BigInt) UnmarshalJSON(data []byte) error {
+	// Ignore null, like in the main JSON package.
+	if bytes.Equal(data, nullbytes) {
+		return nil
+	}
+	if dst.Int == nil {
+		dst.Int = new(big.Int)
+	}
+	return dst.Int.UnmarshalText(data)
 }
