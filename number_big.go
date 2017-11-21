@@ -14,6 +14,11 @@ type BigInt struct {
 	//	Valid   bool // Valid is true if Float64 is not NULL
 }
 
+// NewInt allocates and returns a new Int set to x.
+func NewBigInt(x int64) BigInt {
+	return BigInt{big.NewInt(x)}
+}
+
 // Scan implements sql.Sanner interface
 func (dst *BigInt) Scan(src interface{}) error {
 	if src == nil {
