@@ -14,4 +14,5 @@ func init() {
 	Suite(&ArraySuite{})
 	Suite(&UUIDSuite{})
 	Suite(&StringSuite{})
+	Suite(&BigIntS{})
 }

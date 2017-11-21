@@ -57,3 +57,11 @@ func (dst *BigInt) UnmarshalJSON(data []byte) error {
 	}
 	return dst.Int.UnmarshalText(data)
 }
+
+// MarshalJSON implements the json.Unmarshaler interface.
+func (dst BigInt) MarshalJSON() ([]byte, error) {
+	if dst.Int == nil {
+		return nullbytes, nil
+	}
+	return dst.Int.MarshalText()
+}

@@ -3,6 +3,8 @@ package pgt
 import (
 	"bytes"
 	"database/sql/driver"
+	"errors"
+	"unsafe"
 
 	"github.com/pborman/uuid"
 	"github.com/robert-zaremba/errstack"
@@ -41,18 +43,29 @@ func (u UUID) Empty() bool {
 
 // MarshalJSON implements Marshaller interface
 func (u UUID) MarshalJSON() ([]byte, error) {
-	return uuid.UUID(u).MarshalBinary()
+	bs, err := uuid.UUID(u).MarshalText()
+	if err != nil {
+		return bs, err
+	}
+	var bsStr = make([]byte, len(bs)+2)
+	bsStr[0] = '"'
+	bsStr[len(bsStr)-1] = '"'
+	copy(bsStr[1:], bs)
+	return bsStr, nil
 }
 
 // UnmarshalJSON implements Unmarshaller interface
 func (u *UUID) UnmarshalJSON(data []byte) error {
-	var uu *uuid.UUID
-	if err := uu.UnmarshalBinary(data); err != nil {
-		u = nil
-		return err
+	// firstly we need to drop `"`
+	if len(data) < 2 {
+		return errors.New("expecting string data (value encoled in \"\")")
 	}
-	*u = UUID(*uu)
-	return nil
+	var uu uuid.UUID
+	err := uu.UnmarshalText(data[1 : len(data)-1])
+	if err == nil {
+		*u = *(*UUID)(unsafe.Pointer(&uu))
+	}
+	return err
 }
 
 // MarshalYAML implements Marshaler interface of YAML

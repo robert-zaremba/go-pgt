@@ -1,7 +1,7 @@
 package pgt
 
 import (
-	//	. "github.com/scale-it/checkers"
+	. "github.com/scale-it/checkers"
 	. "gopkg.in/check.v1"
 )
 
@@ -37,4 +37,21 @@ func (suite *UUIDSuite) TestUUIDsScan(c *C) {
 	s, _ = ls.Value()
 	c.Assert(lsout.Scan(s), IsNil)
 	c.Check(*lsout, DeepEquals, ls)
+}
+
+func (suite *UUIDSuite) TestUUIDMarshal(c *C) {
+	var id = RandomUUID()
+	var dest UUID
+	testMarshalJSON(id, &dest, c)
+	c.Assert(id, SliceEquals, dest)
+
+	type composed struct {
+		A  string
+		ID UUID
+		B  string
+	}
+	var obj = composed{"xyz", id, "abc"}
+	var destObj composed
+	testMarshalJSON(obj, &destObj, c)
+	c.Assert(obj, DeepEquals, destObj)
 }
