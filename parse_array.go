@@ -169,7 +169,7 @@ func ParseFloatArray(src []byte) ([]float64, error) {
 	return results, nil
 }
 
-// ParseInt64Array parses float array column
+// ParseInt64Array parses int64 array column
 func ParseInt64Array(src []byte) ([]int64, error) {
 	if bytes.Equal(src, EmptyArray) {
 		return []int64{}, nil

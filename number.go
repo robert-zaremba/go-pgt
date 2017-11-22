@@ -47,7 +47,7 @@ func (s *Float64) Scan(src interface{}) error {
 		s.Float64, s.Valid = asFloat, true
 		return nil
 	}
-	return error(errors.New("Scan source was not a float64"))
+	return errors.New("Scan source was not a float64")
 }
 
 // Value is the valuer for Float64 type. The error is always nil.
