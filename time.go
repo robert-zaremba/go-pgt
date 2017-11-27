@@ -68,6 +68,7 @@ func (t Time) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON implements Unmarshaller interface
 func (t *Time) UnmarshalJSON(data []byte) (err error) {
 	if bytes.Equal(data, nullbytes) {
+		t.Valid = false
 		return nil
 	}
 	asString := strings.Trim(string(data), "\"")
@@ -83,9 +84,10 @@ func (t *Time) UnmarshalJSON(data []byte) (err error) {
 	}
 	// This is new for 0 or zero time
 	if unixTime <= 0 {
-		return nil
+		t.Valid = false
+	} else {
+		*t = Time{time.Unix(unixTime, 0).UTC(), true}
 	}
-	*t = Time{time.Unix(unixTime, 0).UTC(), true}
 	return nil
 }
 
