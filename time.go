@@ -34,6 +34,14 @@ func UTCNow() Time {
 	return Time{time.Now().UTC(), true}
 }
 
+// NewTime creates new valid UTC Time
+func NewTime(t time.Time) Time {
+	if t.Location() != time.UTC {
+		return Time{t.UTC(), true}
+	}
+	return Time{t, true}
+}
+
 // Scan implements Scanner interface
 func (t *Time) Scan(value interface{}) error {
 	t.Time, t.Valid = value.(time.Time)
@@ -102,6 +110,11 @@ func (t *Time) UnmarshalBinary(data []byte) (err error) {
 	}
 	*t = Time{time.Unix(unix, nano).UTC(), true}
 	return nil
+}
+
+// Add is a proxy for the time:Time.Add method
+func (t Time) Add(d time.Duration) Time {
+	return Time{t.Time.Add(d), t.Valid}
 }
 
 func getBytes(data []byte) (int64, error) {
