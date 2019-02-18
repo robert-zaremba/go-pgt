@@ -4,7 +4,7 @@ import (
 	"math/rand"
 
 	"github.com/elgs/gostrgen"
-	. "github.com/scale-it/checkers"
+	. "github.com/robert-zaremba/checkers"
 	. "gopkg.in/check.v1"
 )
 

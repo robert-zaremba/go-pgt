@@ -1,7 +1,7 @@
 package pgt
 
 import (
-	//	. "github.com/scale-it/checkers"
+	//	. "github.com/robert-zaremba/checkers"
 	. "gopkg.in/check.v1"
 )
 
