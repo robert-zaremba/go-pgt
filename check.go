@@ -24,13 +24,14 @@ func CheckPgNoRows(title string, err error) errstack.E {
 	if err == pg.ErrNoRows {
 		return errstack.WrapAsReqF(err, "Can't get %q from DB", title)
 	}
-	return errstack.WrapAsInfF(err, "Can't get %q from DB", title)
+	return errstack.WrapAsIOf(err, "Can't get %q from DB", title)
 }
 
-// ErrNotNoRows check if errors is not Nil and is not ErrNoRows
+// ErrNotNoRows if errors is not Nil and is not ErrNoRows then it returns nil.
+// Otherwise it will wrap the error as an IO error.
 func ErrNotNoRows(title string, err error) errstack.E {
 	if err == nil || err == pg.ErrNoRows {
 		return nil
 	}
-	return errstack.WrapAsInfF(err, "Can't select %q from DB", title)
+	return errstack.WrapAsIOf(err, "Can't execute SELECT %q from DB", title)
 }

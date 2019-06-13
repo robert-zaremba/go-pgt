@@ -1,0 +1,14 @@
+package: github.com/robert-zaremba/go-pgt
+import:
+- package: github.com/go-pg/pg
+  version: ^8.0.4
+  subpackages:
+  - orm
+- package: github.com/pborman/uuid
+  version: ^1.2.0
+- package: github.com/robert-zaremba/go-bat
+testImport:
+- package: github.com/elgs/gostrgen
+- package: github.com/robert-zaremba/checkers
+  version: ^2.1.0
+- package: gopkg.in/check.v1
